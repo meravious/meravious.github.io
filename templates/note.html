@@ -1,0 +1,5 @@
+<article class="note" data-note data-search="{{ note.title }} {{ note.description }} {% for topic in note.taxonomies.topics %}{{ topic }} {% endfor %}">
+  <div class="meta"><time datetime="{{ note.date }}">{{ note.date | date(format='%B %d, %Y') }}</time>{% for topic in note.taxonomies.topics %}<a href="{{ get_taxonomy_url(kind='topics', term=topic) }}">{{ topic }}</a>{% endfor %}</div>
+  {% if note_heading == 'h2' %}<h2 class="note-title"><a href="{{ note.permalink }}">{{ note.title }}</a></h2>{% else %}<h3 class="note-title"><a href="{{ note.permalink }}">{{ note.title }}</a></h3>{% endif %}
+  <p>{{ note.description }}</p>
+</article>

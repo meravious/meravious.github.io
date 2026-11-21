@@ -1,0 +1,59 @@
+name: Check and publish security notebook
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Install pinned official Zola
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive="$RUNNER_TEMP/zola.tar.gz"
+          curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 \
+            'https://github.com/getzola/zola/releases/download/v0.23.6/zola-v0.23.6-x86_64-unknown-linux-gnu.tar.gz' \
+            --output "$archive"
+          printf '%s  %s\n' '8f5132b3522412d04e395e0b25f6d68613ad272a873e54a2b3ebf664873024a4' "$archive" | sha256sum --check
+          mkdir -p "$RUNNER_TEMP/zola-bin"
+          tar -xzf "$archive" -C "$RUNNER_TEMP/zola-bin" zola
+          echo "$RUNNER_TEMP/zola-bin" >> "$GITHUB_PATH"
+      - name: Check source and build
+        run: |
+          zola check --skip-external-links
+          zola build
+          node tools/check-site.mjs
+      - name: Upload Pages artifact
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+  deploy:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

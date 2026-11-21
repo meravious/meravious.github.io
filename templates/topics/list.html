@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="listing"><header class="page-heading"><h1>Topics</h1><p class="intro">Two ways into the notebook: the network itself, and the infrastructure around it.</p></header>
+<div class="topic-list">{% for term in terms %}<section><h2><a href="{{ term.permalink }}">{{ term.name }}</a></h2><p>{% if term.name == 'Network security' %}Intrusion detection and traffic inspection in a virtual network lab.{% elif term.name == 'DevSecOps' %}Notes on DNS, Kubernetes, and the fundamentals of infrastructure design.{% endif %}</p><a class="topic-count" href="{{ term.permalink }}">{{ term.pages | length }} note{% if term.pages | length != 1 %}s{% endif %}</a></section>{% endfor %}</div>
+</section>
+{% endblock content %}

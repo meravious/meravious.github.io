@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% block content %}
+{% set note_heading = 'h2' %}
+<section class="listing"><a class="back-link" href="{{ get_url(path='topics', trailing_slash=true) }}">All topics</a><header class="page-heading"><h1>{{ term.name }}</h1><p class="intro">{% if term.name == 'Network security' %}Lab notes on traffic flow and intrusion detection.{% elif term.name == 'DevSecOps' %}Revisiting the infrastructure fundamentals behind secure systems.{% else %}Notes filed under {{ term.name }}.{% endif %}</p></header><div class="note-list">{% for post in term.pages %}{% set note = post %}{% include "note.html" %}{% endfor %}</div></section>{% endblock content %}

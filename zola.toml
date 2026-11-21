@@ -1,0 +1,21 @@
+base_url = "https://meravious.github.io"
+title = "Huyen Tran — Security Engineering"
+description = "Field notes on network defense, secure infrastructure, and the systems underneath."
+default_language = "en"
+author = "Huyen Tran"
+compile_sass = false
+minify_html = true
+generate_feeds = true
+feed_filenames = ["atom.xml"]
+build_search_index = false
+taxonomies = [{ name = "topics", feed = true }]
+
+[markdown]
+external_links_target_blank = false
+external_links_no_referrer = true
+
+[extra]
+featured_post = ""
+name = "Huyen Tran"
+github = "https://github.com/meravious"
+linkedin = "https://www.linkedin.com/in/t-huyen/"

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<article class="article">
+  <header class="article-header">
+    <a class="back-link" href="{{ get_url(path='@/posts/_index.md') }}">All writing</a>
+    <div class="meta article-topics">{% for topic in page.taxonomies.topics %}<a href="{{ get_taxonomy_url(kind='topics', term=topic) }}">{{ topic }}</a>{% endfor %}</div>
+    <h1>{{ page.title }}</h1>
+    <p class="intro">{{ page.description }}</p>
+    <div class="byline"><span>{{ config.extra.name }}</span><time datetime="{{ page.date }}">{{ page.date | date(format='%B %d, %Y') }}</time><span>{{ page.reading_time }} min read</span></div>
+  </header>
+  <div class="article-layout">
+    <div class="article-body">
+      {% if page.extra.archived | default(value=false) %}<aside class="archive-banner"><strong>From the {{ page.extra.archive_year }} archive</strong><p>This note preserves the original lab context. Commands and explanations have not been revalidated against current versions. Use an isolated lab, not a production environment.</p></aside>{% endif %}
+      {% if page.toc %}<details class="mobile-toc"><summary>In this note</summary><nav aria-label="Article contents">{% for item in page.toc %}<a href="{{ item.permalink }}">{{ item.title }}</a>{% endfor %}</nav></details>{% endif %}
+      <div class="prose">{{ page.content | safe }}</div>
+      <div class="article-end"><a href="{{ get_url(path='@/posts/_index.md') }}">Back to all writing</a><a href="{{ get_url(path='atom.xml') }}">Subscribe by RSS</a></div>
+    </div>
+    {% if page.toc %}<aside class="toc"><h2>In this note</h2><nav aria-label="Table of contents">{% for item in page.toc %}<a href="{{ item.permalink }}">{{ item.title }}</a>{% endfor %}</nav></aside>{% endif %}
+  </div>
+</article>
+{% endblock content %}

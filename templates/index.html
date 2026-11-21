@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+{% set posts = get_section(path='posts/_index.md') %}
+{% set featured = false %}
+{% if config.extra.featured_post %}{% set featured = get_page(path=config.extra.featured_post, allow_missing=true) %}{% endif %}
+{% if not featured and posts.pages | length > 0 %}{% set featured = posts.pages | first %}{% endif %}
+<section class="home-intro">
+  <h1>Security, from the<br>lab notebook.</h1>
+  <p>Notes on the networks and infrastructure underneath an application. What I set up, what I had to revisit, and what I learned along the way.</p>
+</section>
+{% if featured %}
+<article class="featured{% if not featured.extra.image %} text-only{% endif %}">
+  <div class="featured-copy">
+    <div class="meta">{% if featured.taxonomies.topics %}{% for topic in featured.taxonomies.topics %}<a href="{{ get_taxonomy_url(kind='topics', term=topic) }}">{{ topic }}</a>{% endfor %}{% endif %}<time datetime="{{ featured.date }}">{{ featured.date | date(format='%B %d, %Y') }}</time></div>
+    <h2><a href="{{ featured.permalink }}">{{ featured.title }}</a></h2>
+    <p>{{ featured.description }}</p>
+    <a class="reading-link" href="{{ featured.permalink }}">Read the note</a>
+  </div>
+  {% if featured.extra.image %}<figure>
+    <a class="image-frame" href="{{ featured.permalink }}" aria-label="Read {{ featured.title }}"><img src="{{ get_url(path=featured.extra.image) }}" alt="{{ featured.extra.image_alt | default(value=featured.title) }}"></a>
+    {% if featured.extra.image_caption %}<figcaption>{{ featured.extra.image_caption }}</figcaption>{% endif %}
+  </figure>{% endif %}
+</article>
+{% endif %}
+<div class="home-more{% if not featured %} fresh-notebook{% endif %}">
+  <section aria-labelledby="more-writing">
+    {% if featured %}<div class="section-title"><h2 id="more-writing">Also in the notebook</h2><a href="{{ get_url(path='@/posts/_index.md') }}">All writing</a></div>
+    {% if posts.pages | length > 1 %}{% for post in posts.pages %}{% if post.permalink != featured.permalink %}{% set note = post %}{% include "note.html" %}{% endif %}{% endfor %}{% else %}<p class="muted">More notes will appear here as the notebook grows.</p>{% endif %}
+    {% else %}<h2 id="more-writing">No posts yet.</h2><p class="muted">The notebook is starting fresh. New security engineering notes will appear here.</p>{% endif %}
+  </section>
+  <aside class="about-note"><h2>About these notes</h2><p>I'm Huyen. This is a place to keep what I learn about systems and security.</p><a href="{{ get_url(path='@/about.md') }}">More about the notebook</a></aside>
+</div>
+{% endblock content %}
