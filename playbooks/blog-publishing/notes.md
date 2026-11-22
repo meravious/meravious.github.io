@@ -1,5 +1,12 @@
 # Durable corrections
 
+## 2026 11 22 Public identity and CTF evidence
+
+- Human correction: remove Huyen Tran from the website; use the existing meravious identity. Updated configuration, accessible brand label, feed label, About and homepage introduction.
+- Toolbox correction: feed and accessible brand labels now use config.extra.name instead of a hard-coded author. Future identity edits should inspect metadata and accessible labels as well as visible copy.
+- Password Profiler is grouped under the existing topics taxonomy as cylab. The write-up distinguishes verified hash equality from speculation about the numeric suffix and discloses AI assistance. Platform submission and editorial acceptance remain unverified/pending.
+- Rendering regression: Python f-string braces in fenced code were parsed as Tera expressions. Wrapped the article body in a Tera raw block to preserve the exact code; rerun the source check, build and navigation checks after this correction.
+
 ## 2026 11 21 Fresh notebook and GitHub rename
 
 - Human request: remove all existing posts and post images while keeping the website; the new GitHub account username is meravious.

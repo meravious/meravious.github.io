@@ -31,14 +31,14 @@
   <meta property="og:type" content="{% if page and page.date %}article{% else %}website{% endif %}">
   <link rel="icon" type="image/svg+xml" href="{{ get_url(path='favicon.svg') }}">
   <link rel="stylesheet" href="{{ get_url(path='site.css') }}">
-  {% if post_count > 0 %}<link rel="alternate" type="application/atom+xml" title="Huyen Tran's notebook" href="{{ get_url(path='atom.xml') }}">{% endif %}
+  {% if post_count > 0 %}<link rel="alternate" type="application/atom+xml" title="{{ config.extra.name }}'s notebook" href="{{ get_url(path='atom.xml') }}">{% endif %}
   <script src="{{ get_url(path='site.js') }}" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <div class="shell">
     <header class="site-header">
-      <a class="brand" href="{{ config.base_url }}" aria-label="Huyen Tran home">{{ config.extra.name }}</a>
+      <a class="brand" href="{{ config.base_url }}" aria-label="{{ config.extra.name }} home">{{ config.extra.name }}</a>
       <nav aria-label="Main navigation">
         <a href="{{ get_url(path='@/posts/_index.md') }}"{% if current_path == '/posts/' or page and page.date %} aria-current="page"{% endif %}>Writing</a>
         {% if post_count > 0 %}<a href="{{ get_url(path='topics', trailing_slash=true) }}"{% if taxonomy %} aria-current="page"{% endif %}>Topics</a>{% endif %}

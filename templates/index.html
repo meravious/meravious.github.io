@@ -28,6 +28,6 @@
     {% if posts.pages | length > 1 %}{% for post in posts.pages %}{% if post.permalink != featured.permalink %}{% set note = post %}{% include "note.html" %}{% endif %}{% endfor %}{% else %}<p class="muted">More notes will appear here as the notebook grows.</p>{% endif %}
     {% else %}<h2 id="more-writing">No posts yet.</h2><p class="muted">The notebook is starting fresh. New security engineering notes will appear here.</p>{% endif %}
   </section>
-  <aside class="about-note"><h2>About these notes</h2><p>I'm Huyen. This is a place to keep what I learn about systems and security.</p><a href="{{ get_url(path='@/about.md') }}">More about the notebook</a></aside>
+  <aside class="about-note"><h2>About these notes</h2><p>This is a place to keep what I learn about systems and security.</p><a href="{{ get_url(path='@/about.md') }}">More about the notebook</a></aside>
 </div>
 {% endblock content %}
